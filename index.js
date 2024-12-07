@@ -6,7 +6,7 @@ app.get('/', (req, res) =>{
     res.send('prueba');
 
 });
-
+//
 app.listen(port, () =>{
     console.log('servidor corriendo');
     console.log(`http://localhost:${port}/`);
