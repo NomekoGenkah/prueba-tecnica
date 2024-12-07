@@ -7,13 +7,6 @@ module.exports = (sequelize) => {
 
     }
 
-    User.beforeCreate(async (user) =>{
-        if(user.password){
-            const passwordHash = await bcrypt.hash(user.password, 10);
-            user.password = passwordHash;
-        }
-    });
-
     User.init({
         id:{
             type: DataTypes.INTEGER,
@@ -48,6 +41,13 @@ module.exports = (sequelize) => {
         modelName: 'User',
         tableName: 'usuarios',
         timestamps: true,
+    });
+
+    User.beforeCreate(async (user) =>{
+        if(user.password){
+            const passwordHash = await bcrypt.hash(user.password, 10);
+            user.password = passwordHash;
+        }
     });
 
     return User;
