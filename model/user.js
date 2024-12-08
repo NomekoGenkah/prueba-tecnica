@@ -23,7 +23,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            validate: true,
+            validate: {
+                isEmail: true,
+            },
         },
 
         password:{
@@ -34,20 +36,17 @@ module.exports = (sequelize) => {
         rol:{
             type: DataTypes.STRING,
             allowNull: false,
-            validate: true,
+            validate:{
+                isIn:{
+                    args: [['Admin', 'Usuario']],
+                },
+            },
         },
     },
+
     {sequelize,
         modelName: 'User',
         tableName: 'usuarios',
-        timestamps: true,
-    });
-
-    User.beforeCreate(async (user) =>{
-        if(user.password){
-            const passwordHash = await bcrypt.hash(user.password, 10);
-            user.password = passwordHash;
-        }
     });
 
     return User;

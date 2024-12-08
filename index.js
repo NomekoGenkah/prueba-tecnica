@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const sequelize = require('./config/db.js');
 const userRoutes = require('./routes/userRoutes.js');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use('/usuarios', userRoutes);
@@ -22,11 +23,10 @@ app.use('/usuarios', userRoutes);
 
 })();
 
-
 app.get('/', (req, res) =>{
     res.send('prueba');
 });
-//
+
 app.listen(PORT, () =>{
     console.log('servidor corriendo');
     console.log(`http://localhost:${PORT}/`);

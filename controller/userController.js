@@ -1,6 +1,6 @@
-//const {User} = require('../model');
 const sequelize = require('../config/db.js');
 const User = require('../model/user.js')(sequelize);
+const bcrypt = require('bcryptjs');
 
 
 const userController = {
@@ -13,17 +13,19 @@ const userController = {
                 return res.status(400).json({error: 'Email se encuentra registrado'});
             }
 
-            const user = await User.create({nombre, email, password, rol});
+            const passwordHash = await bcrypt.hash(password, 10);
+
+            const user = await User.create({nombre, email, password:passwordHash, rol});
             res.status(201).json(user);
 
             //debug
-            console.log('usuario creado');
+            //console.log('usuario creado');
         
         }catch(error){
             res.status(500).json({error: 'Error al crear usuario'});
             
             //debug
-            console.log(`usuario no creado: ${error}`);
+            //console.log(`usuario no creado: ${error}`);
         }
     },
 
@@ -43,8 +45,8 @@ const userController = {
             const user =  await User.findByPk(id);
 
             //debug
-            console.log(user);
-            console.log(id);
+            //console.log(user);
+            //console.log(id);
 
             if(user){
                 return res.status(200).json(user);
@@ -84,8 +86,8 @@ const userController = {
             const user = await User.findByPk(id);
 
             //debug
-            console.log(user);
-            console.log(id);
+            //console.log(user);
+            //console.log(id);
 
             if(!user){
                 return res.status(404).json({error: 'Usuario no encontrado'});
